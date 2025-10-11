@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MenuLightbox from "@/components/MenuLightbox";
 import dishSalmon from "@/assets/dish-salmon.jpg";
 import dishSteak from "@/assets/dish-steak.jpg";
 import dishPasta from "@/assets/dish-pasta.jpg";
@@ -10,6 +12,9 @@ import menuAppetizer from "@/assets/menu-appetizer.jpg";
 import menuWine from "@/assets/menu-wine.jpg";
 
 const Menu = () => {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [lightboxImages, setLightboxImages] = useState<{ src: string; alt: string }[]>([]);
   const menuItems = {
     starters: [
       {
@@ -141,6 +146,13 @@ const Menu = () => {
     ],
   };
 
+  const handleImageClick = (items: typeof menuItems.starters, index: number) => {
+    const images = items.map((item) => ({ src: item.image, alt: item.name }));
+    setLightboxImages(images);
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
   const MenuSection = ({ items }: { items: typeof menuItems.starters }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {items.map((item, index) => (
@@ -150,12 +162,20 @@ const Menu = () => {
           style={{ animationDelay: `${index * 0.1}s` }}
         >
           <div className="flex flex-col sm:flex-row">
-            <div className="relative w-full sm:w-40 h-40 overflow-hidden">
+            <div 
+              className="relative w-full sm:w-40 h-40 overflow-hidden cursor-pointer"
+              onClick={() => handleImageClick(items, index)}
+            >
               <img
                 src={item.image}
                 alt={item.name}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
+              <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 transition-colors duration-300 flex items-center justify-center">
+                <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-semibold">
+                  View Image
+                </span>
+              </div>
             </div>
             <CardContent className="flex-1 p-6">
               <div className="flex justify-between items-start mb-2">
@@ -239,6 +259,13 @@ const Menu = () => {
           </p>
         </div>
       </section>
+
+      <MenuLightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        images={lightboxImages}
+        currentIndex={lightboxIndex}
+      />
 
       <Footer />
     </div>

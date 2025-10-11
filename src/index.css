@@ -75,7 +75,8 @@ All colors MUST be HSL.
   }
 
   .hover-scale:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    box-shadow: var(--shadow-gold);
   }
 
   .text-gradient-gold {

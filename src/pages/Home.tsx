@@ -4,10 +4,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
-import { Star, ChefHat, Clock, Award } from "lucide-react";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
+import { ChefHat, Clock, Award, Sparkles } from "lucide-react";
 import dishSalmon from "@/assets/dish-salmon.jpg";
 import dishSteak from "@/assets/dish-steak.jpg";
 import dishPasta from "@/assets/dish-pasta.jpg";
+import dishLobster from "@/assets/dish-lobster.jpg";
 
 const Home = () => {
   const featuredDishes = [
@@ -29,6 +31,12 @@ const Home = () => {
       price: "$32",
       image: dishPasta,
     },
+    {
+      name: "Butter Lobster Tail",
+      description: "Succulent lobster tail with herb butter and seasonal vegetables",
+      price: "$58",
+      image: dishLobster,
+    },
   ];
 
   const testimonials = [
@@ -45,6 +53,11 @@ const Home = () => {
     {
       name: "Emma Thompson",
       text: "A culinary masterpiece. Every visit feels like a special occasion.",
+      rating: 5,
+    },
+    {
+      name: "Michael Chen",
+      text: "The perfect blend of elegance and warmth. Chef's special was extraordinary!",
       rating: 5,
     },
   ];
@@ -107,7 +120,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {featuredDishes.map((dish, index) => (
               <Card
                 key={index}
@@ -147,8 +160,60 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Chef's Special */}
       <section className="py-20 bg-card">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <Sparkles className="w-8 h-8 text-primary" />
+              <h2 className="text-4xl md:text-5xl font-bold font-playfair">
+                Chef's <span className="text-gradient-gold">Special</span>
+              </h2>
+              <Sparkles className="w-8 h-8 text-primary" />
+            </div>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              A limited-time masterpiece crafted by our Executive Chef
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <Card className="overflow-hidden hover-scale cursor-pointer group">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="relative h-80 md:h-auto overflow-hidden">
+                  <img
+                    src={dishLobster}
+                    alt="Chef's Special - Butter Lobster Tail"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-full font-semibold">
+                    Limited Time
+                  </div>
+                </div>
+                <CardContent className="p-8 flex flex-col justify-center">
+                  <h3 className="text-3xl font-bold font-playfair mb-4">
+                    Butter Lobster Tail
+                  </h3>
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                    Succulent lobster tail bathed in herb-infused butter, accompanied by seasonal roasted vegetables and saffron-infused rice. A symphony of flavors that celebrates the ocean's finest bounty.
+                  </p>
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-3xl font-bold text-primary">$58</span>
+                    <span className="text-sm text-muted-foreground">Available this month</span>
+                  </div>
+                  <Link to="/contact">
+                    <Button variant="hero" size="lg" className="w-full">
+                      Reserve & Order
+                    </Button>
+                  </Link>
+                </CardContent>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
@@ -159,32 +224,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card
-                key={index}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <CardContent className="p-6">
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-5 h-5 fill-primary text-primary"
-                      />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-4 italic">
-                    "{testimonial.text}"
-                  </p>
-                  <p className="font-semibold text-foreground">
-                    {testimonial.name}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
       </section>
 

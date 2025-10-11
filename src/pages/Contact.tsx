@@ -5,10 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, CheckCircle2 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,7 +29,7 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -28,19 +38,43 @@ const Contact = () => {
       return;
     }
 
-    // Show success message
-    toast.success("Reservation request sent! We'll contact you shortly to confirm.");
-    
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      guests: "",
-      date: "",
-      time: "",
-      message: "",
-    });
+    setIsSubmitting(true);
+
+    try {
+      // EmailJS integration
+      await emailjs.send(
+        'service_lacresta', // You'll need to replace with actual EmailJS service ID
+        'template_reservation', // You'll need to replace with actual EmailJS template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          guests: formData.guests || "Not specified",
+          date: formData.date,
+          time: formData.time,
+          message: formData.message || "No special requests",
+        },
+        'your_public_key' // You'll need to replace with actual EmailJS public key
+      );
+
+      setShowSuccessModal(true);
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        guests: "",
+        date: "",
+        time: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      toast.error("Failed to send reservation. Please call us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -176,8 +210,14 @@ const Contact = () => {
                     />
                   </div>
 
-                  <Button type="submit" variant="hero" size="lg" className="w-full">
-                    Send Reservation Request
+                  <Button 
+                    type="submit" 
+                    variant="hero" 
+                    size="lg" 
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Reservation Request"}
                   </Button>
                 </form>
               </CardContent>
@@ -267,6 +307,26 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
+      {/* Success Modal */}
+      <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex justify-center mb-4">
+              <CheckCircle2 className="w-16 h-16 text-primary" />
+            </div>
+            <DialogTitle className="text-center text-2xl">Reservation Received!</DialogTitle>
+            <DialogDescription className="text-center pt-4">
+              Thank you for your reservation request. Our team will contact you within 24 hours to confirm your booking details.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center pt-4">
+            <Button onClick={() => setShowSuccessModal(false)} variant="hero">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>

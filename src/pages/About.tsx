@@ -1,9 +1,11 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Award, Heart, Users } from "lucide-react";
+import { Award, Heart, Users, Quote } from "lucide-react";
 import aboutInterior from "@/assets/about-interior.jpg";
 import chefPortrait from "@/assets/chef-portrait.jpg";
+import chefPortrait2 from "@/assets/chef-portrait-2.jpg";
+import interiorFullWidth from "@/assets/interior-full-width.jpg";
 
 const About = () => {
   const values = [
@@ -41,6 +43,25 @@ const About = () => {
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             A journey of culinary excellence, passion, and dedication to creating unforgettable dining experiences
           </p>
+        </div>
+      </section>
+
+      {/* Founder's Note */}
+      <section className="py-20 bg-card">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center animate-fade-in">
+            <Quote className="w-12 h-12 text-primary mx-auto mb-6" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 font-playfair">
+              A Message from Our <span className="text-gradient-gold">Founder</span>
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              "LaCresta was born from a simple dream: to create a space where food becomes art, and every meal becomes a celebration. Over fifteen years ago, I envisioned a restaurant that would honor the traditions of great cuisine while embracing innovation and creativity."
+            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              "Today, I'm proud to see that vision come to life every evening as our guests experience the passion and dedication we pour into every aspect of dining at LaCresta. Thank you for being part of our journey."
+            </p>
+            <p className="text-primary font-semibold text-xl font-playfair">— Alessandro Romano, Founder</p>
+          </div>
         </div>
       </section>
 
@@ -110,30 +131,95 @@ const About = () => {
       {/* Chef Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
+              Our Culinary <span className="text-gradient-gold">Team</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Led by world-class chefs dedicated to culinary excellence
+            </p>
+          </div>
+
+          {/* Executive Chef */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="space-y-6 animate-fade-in">
-              <h2 className="text-4xl font-bold font-playfair">
-                Meet Our <span className="text-gradient-gold">Executive Chef</span>
-              </h2>
-              <h3 className="text-2xl font-semibold text-primary">
-                Chef Marcus Reynolds
+              <h3 className="text-3xl font-bold font-playfair">
+                Executive Chef
               </h3>
+              <h4 className="text-2xl font-semibold text-primary">
+                Chef Marcus Reynolds
+              </h4>
+              <div className="relative pl-6 border-l-4 border-primary">
+                <Quote className="w-6 h-6 text-primary absolute -left-3 top-0 bg-background" />
+                <p className="text-lg text-muted-foreground italic">
+                  "Cooking is not just about following recipes—it's about understanding ingredients, respecting traditions, and having the courage to innovate."
+                </p>
+              </div>
               <p className="text-muted-foreground leading-relaxed">
                 With over 20 years of culinary expertise, Chef Marcus Reynolds brings a wealth of international experience to LaCresta Dining. Trained in prestigious kitchens across Europe and Asia, Chef Marcus has developed a unique style that honors traditional techniques while embracing contemporary innovation.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                His philosophy is simple: respect the ingredients, honor the craft, and create dishes that not only satisfy the palate but also touch the soul. Under his leadership, LaCresta has earned numerous accolades and has become synonymous with culinary excellence.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Chef Marcus believes that cooking is an art form, and his kitchen is where creativity meets precision. Every menu is carefully curated to showcase seasonal ingredients and provide guests with an unforgettable gastronomic journey.
+                Under his leadership, LaCresta has earned numerous accolades and has become synonymous with culinary excellence. Every menu is carefully curated to showcase seasonal ingredients and provide guests with an unforgettable gastronomic journey.
               </p>
             </div>
             <div className="animate-fade-in">
               <img
                 src={chefPortrait}
                 alt="Chef Marcus Reynolds"
-                className="rounded-lg shadow-elegant w-full h-[600px] object-cover"
+                className="rounded-lg shadow-elegant w-full h-[600px] object-cover hover-scale"
               />
+            </div>
+          </div>
+
+          {/* Sous Chef */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="animate-fade-in order-2 lg:order-1">
+              <img
+                src={chefPortrait2}
+                alt="Chef Isabella Martinez"
+                className="rounded-lg shadow-elegant w-full h-[600px] object-cover hover-scale"
+              />
+            </div>
+            <div className="space-y-6 animate-fade-in order-1 lg:order-2">
+              <h3 className="text-3xl font-bold font-playfair">
+                Sous Chef
+              </h3>
+              <h4 className="text-2xl font-semibold text-primary">
+                Chef Isabella Martinez
+              </h4>
+              <div className="relative pl-6 border-l-4 border-primary">
+                <Quote className="w-6 h-6 text-primary absolute -left-3 top-0 bg-background" />
+                <p className="text-lg text-muted-foreground italic">
+                  "Every plate that leaves our kitchen carries a piece of our passion and dedication to the craft."
+                </p>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                Chef Isabella Martinez brings 15 years of refined expertise to our kitchen. Having trained under Michelin-starred chefs in Spain and France, she specializes in modern interpretations of classic dishes with an emphasis on artistic presentation.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Her attention to detail and innovative approach to flavor pairing has been instrumental in creating some of LaCresta's most celebrated signature dishes. Chef Isabella's commitment to excellence ensures every dish meets the highest standards.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Full-Width Interior Section */}
+      <section className="relative h-[600px] overflow-hidden">
+        <img
+          src={interiorFullWidth}
+          alt="LaCresta Dining Interior"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/50 to-background/90 flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 font-playfair">
+                An Ambiance of <span className="text-gradient-gold">Elegance</span>
+              </h2>
+              <p className="text-lg text-foreground/90 leading-relaxed">
+                Step into a world where sophisticated design meets warm hospitality. Our dining room features carefully curated decor, ambient lighting, and an atmosphere that transforms every meal into a memorable occasion.
+              </p>
             </div>
           </div>
         </div>

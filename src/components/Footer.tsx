@@ -107,9 +107,12 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-border mt-8 pt-8 text-center">
+        <div className="border-t border-border mt-8 pt-8 text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             © 2025 LaCresta Dining. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground/70">
+            Website built by LaCresta Dining
           </p>
         </div>
       </div>
