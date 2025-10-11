@@ -1,0 +1,213 @@
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+import { Star, ChefHat, Clock, Award } from "lucide-react";
+import dishSalmon from "@/assets/dish-salmon.jpg";
+import dishSteak from "@/assets/dish-steak.jpg";
+import dishPasta from "@/assets/dish-pasta.jpg";
+
+const Home = () => {
+  const featuredDishes = [
+    {
+      name: "Grilled Salmon",
+      description: "Fresh Atlantic salmon with lemon butter sauce and asparagus",
+      price: "$42",
+      image: dishSalmon,
+    },
+    {
+      name: "Wagyu Steak",
+      description: "Premium wagyu beef with truffle mashed potatoes",
+      price: "$68",
+      image: dishSteak,
+    },
+    {
+      name: "Artisan Pasta",
+      description: "Handmade carbonara with pancetta and parmesan",
+      price: "$32",
+      image: dishPasta,
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: "Sarah Mitchell",
+      text: "Absolutely phenomenal dining experience. The attention to detail in every dish was remarkable.",
+      rating: 5,
+    },
+    {
+      name: "James Rodriguez",
+      text: "Best restaurant in the city! The ambiance and service are unmatched.",
+      rating: 5,
+    },
+    {
+      name: "Emma Thompson",
+      text: "A culinary masterpiece. Every visit feels like a special occasion.",
+      rating: 5,
+    },
+  ];
+
+  const features = [
+    {
+      icon: ChefHat,
+      title: "Expert Chefs",
+      description: "World-class culinary team with decades of experience",
+    },
+    {
+      icon: Award,
+      title: "Award Winning",
+      description: "Recognized for excellence in fine dining",
+    },
+    {
+      icon: Clock,
+      title: "Fresh Daily",
+      description: "Ingredients sourced fresh every morning",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <Hero />
+
+      {/* Features Section */}
+      <section className="py-20 bg-card">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="text-center space-y-4 animate-fade-in"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
+                  <feature.icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold font-playfair">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Dishes */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
+              Featured <span className="text-gradient-gold">Dishes</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Discover our chef's signature creations, crafted with passion and precision
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredDishes.map((dish, index) => (
+              <Card
+                key={index}
+                className="overflow-hidden hover-scale cursor-pointer group animate-fade-in"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={dish.image}
+                    alt={dish.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-2xl font-bold text-foreground font-playfair mb-1">
+                      {dish.name}
+                    </h3>
+                    <p className="text-primary font-semibold text-lg">
+                      {dish.price}
+                    </p>
+                  </div>
+                </div>
+                <CardContent className="p-6">
+                  <p className="text-muted-foreground">{dish.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/menu">
+              <Button variant="hero" size="lg">
+                View Full Menu
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 bg-card">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
+              What Our <span className="text-gradient-gold">Guests Say</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Hear from our satisfied diners about their exceptional experiences
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card
+                key={index}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <CardContent className="p-6">
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 fill-primary text-primary"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground mb-4 italic">
+                    "{testimonial.text}"
+                  </p>
+                  <p className="font-semibold text-foreground">
+                    {testimonial.name}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-hero">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-playfair animate-fade-in">
+            Ready for an <span className="text-gradient-gold">Exceptional</span> Experience?
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in">
+            Reserve your table today and let us create an unforgettable dining experience for you
+          </p>
+          <Link to="/contact">
+            <Button variant="hero" size="lg" className="animate-fade-in">
+              Make a Reservation
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Home;
