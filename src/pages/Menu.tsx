@@ -1,382 +1,161 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import MenuLightbox from "@/components/MenuLightbox";
+import { motion } from "framer-motion";
+import menuAppetizer from "@/assets/menu-appetizer.jpg";
 import dishSalmon from "@/assets/dish-salmon.jpg";
-import dishSteak from "@/assets/dish-steak.jpg";
 import dishPasta from "@/assets/dish-pasta.jpg";
 import dishDessert from "@/assets/dish-dessert.jpg";
-import menuAppetizer from "@/assets/menu-appetizer.jpg";
+import dishSteak from "@/assets/dish-steak.jpg";
+import dishLobster from "@/assets/dish-lobster.jpg";
 import menuWine from "@/assets/menu-wine.jpg";
+import menuData from "@/data/menuData.json";
+
+const imageMap: Record<string, string> = {
+  "menu-appetizer": menuAppetizer,
+  "dish-salmon": dishSalmon,
+  "dish-pasta": dishPasta,
+  "dish-dessert": dishDessert,
+  "dish-steak": dishSteak,
+  "dish-lobster": dishLobster,
+  "menu-wine": menuWine,
+};
 
 const Menu = () => {
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [lightboxImages, setLightboxImages] = useState<{ src: string; alt: string }[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [lightboxIndex, setLightboxIndex] = useState<number>(-1);
+
+  const categories = [
+    { id: "all", name: "All" },
+    { id: "starters", name: "Starters" },
+    { id: "mains", name: "Main Courses" },
+    { id: "desserts", name: "Desserts" },
+    { id: "drinks", name: "Drinks" },
+  ];
+
   const menuItems = {
-    starters: [
-      {
-        name: "Shrimp Cocktail",
-        description: "Fresh jumbo shrimp with zesty cocktail sauce and lemon",
-        price: "$18",
-        image: menuAppetizer,
-      },
-      {
-        name: "Caesar Salad",
-        description: "Crisp romaine, parmesan, croutons, classic Caesar dressing",
-        price: "$14",
-        image: menuAppetizer,
-      },
-      {
-        name: "French Onion Soup",
-        description: "Caramelized onions, beef broth, melted Gruyère cheese",
-        price: "$12",
-        image: menuAppetizer,
-      },
-      {
-        name: "Bruschetta Trio",
-        description: "Tomato basil, mushroom truffle, roasted pepper varieties",
-        price: "$16",
-        image: menuAppetizer,
-      },
-      {
-        name: "Tuna Tartare",
-        description: "Sushi-grade yellowfin tuna, avocado, sesame oil, crispy wontons",
-        price: "$22",
-        image: menuAppetizer,
-      },
-      {
-        name: "Escargot Bourguignon",
-        description: "Burgundy snails in garlic herb butter, toasted baguette",
-        price: "$19",
-        image: menuAppetizer,
-      },
-      {
-        name: "Caprese Burrata",
-        description: "Creamy burrata, heirloom tomatoes, basil, aged balsamic",
-        price: "$17",
-        image: menuAppetizer,
-      },
-      {
-        name: "Oysters Rockefeller",
-        description: "Baked oysters with spinach, herbs, and parmesan crust",
-        price: "$24",
-        image: menuAppetizer,
-      },
-    ],
-    mains: [
-      {
-        name: "Grilled Salmon",
-        description: "Atlantic salmon, lemon butter sauce, asparagus, herb rice",
-        price: "$42",
-        image: dishSalmon,
-      },
-      {
-        name: "Wagyu Beef Steak",
-        description: "Premium wagyu, truffle mashed potatoes, red wine reduction",
-        price: "$68",
-        image: dishSteak,
-      },
-      {
-        name: "Artisan Carbonara",
-        description: "Handmade pasta, pancetta, parmesan, egg yolk",
-        price: "$32",
-        image: dishPasta,
-      },
-      {
-        name: "Herb Roasted Chicken",
-        description: "Free-range chicken, root vegetables, rosemary jus",
-        price: "$36",
-        image: dishSteak,
-      },
-      {
-        name: "Lobster Risotto",
-        description: "Creamy arborio rice, fresh lobster, saffron, white wine",
-        price: "$54",
-        image: dishPasta,
-      },
-      {
-        name: "Rack of Lamb",
-        description: "New Zealand lamb, mint pesto, garlic potatoes",
-        price: "$58",
-        image: dishSteak,
-      },
-      {
-        name: "Pan-Seared Duck Breast",
-        description: "Muscovy duck, cherry port reduction, wild mushroom risotto",
-        price: "$48",
-        image: dishSteak,
-      },
-      {
-        name: "Chilean Sea Bass",
-        description: "Miso-glazed sea bass, bok choy, ginger jasmine rice",
-        price: "$52",
-        image: dishSalmon,
-      },
-      {
-        name: "Osso Buco",
-        description: "Braised veal shank, saffron risotto Milanese, gremolata",
-        price: "$56",
-        image: dishSteak,
-      },
-      {
-        name: "Wild Mushroom Ravioli",
-        description: "Handmade pasta, porcini, truffle cream, parmesan crisp",
-        price: "$38",
-        image: dishPasta,
-      },
-      {
-        name: "Surf & Turf",
-        description: "Filet mignon, butter-poached lobster tail, béarnaise sauce",
-        price: "$78",
-        image: dishSteak,
-      },
-      {
-        name: "Mediterranean Branzino",
-        description: "Whole roasted sea bass, lemon, capers, olive tapenade",
-        price: "$46",
-        image: dishSalmon,
-      },
-    ],
-    desserts: [
-      {
-        name: "Chocolate Lava Cake",
-        description: "Molten chocolate center, vanilla ice cream, berry coulis",
-        price: "$14",
-        image: dishDessert,
-      },
-      {
-        name: "Crème Brûlée",
-        description: "Classic vanilla custard with caramelized sugar top",
-        price: "$12",
-        image: dishDessert,
-      },
-      {
-        name: "Tiramisu",
-        description: "Italian classic with espresso-soaked ladyfingers, mascarpone",
-        price: "$13",
-        image: dishDessert,
-      },
-      {
-        name: "Seasonal Fruit Tart",
-        description: "Fresh berries, pastry cream, almond crust",
-        price: "$11",
-        image: dishDessert,
-      },
-      {
-        name: "New York Cheesecake",
-        description: "Creamy cheesecake, graham cracker crust, mixed berry compote",
-        price: "$13",
-        image: dishDessert,
-      },
-      {
-        name: "Bananas Foster",
-        description: "Caramelized bananas, rum sauce, vanilla bean ice cream",
-        price: "$14",
-        image: dishDessert,
-      },
-      {
-        name: "Panna Cotta",
-        description: "Silky Italian custard, passion fruit coulis, mint",
-        price: "$12",
-        image: dishDessert,
-      },
-      {
-        name: "Profiteroles",
-        description: "Choux pastry, vanilla ice cream, warm chocolate sauce",
-        price: "$13",
-        image: dishDessert,
-      },
-      {
-        name: "Affogato",
-        description: "Vanilla gelato drowned in hot espresso, amaretti cookie",
-        price: "$10",
-        image: dishDessert,
-      },
-    ],
-    drinks: [
-      {
-        name: "House Red Wine",
-        description: "Carefully selected full-bodied red blend",
-        price: "$12 / glass",
-        image: menuWine,
-      },
-      {
-        name: "House White Wine",
-        description: "Crisp and refreshing Sauvignon Blanc",
-        price: "$11 / glass",
-        image: menuWine,
-      },
-      {
-        name: "Champagne",
-        description: "Premium French champagne, celebration worthy",
-        price: "$18 / glass",
-        image: menuWine,
-      },
-      {
-        name: "Signature Cocktails",
-        description: "Ask your server for our rotating cocktail menu",
-        price: "$15",
-        image: menuWine,
-      },
-      {
-        name: "Fresh Juices",
-        description: "Orange, grapefruit, or mixed berry",
-        price: "$8",
-        image: menuWine,
-      },
-      {
-        name: "Artisan Coffee",
-        description: "Espresso, cappuccino, or latte",
-        price: "$6",
-        image: menuWine,
-      },
-      {
-        name: "Aged Bordeaux",
-        description: "2016 Château Margaux, elegant and complex",
-        price: "$28 / glass",
-        image: menuWine,
-      },
-      {
-        name: "Pinot Grigio",
-        description: "Italian white, light and crisp with citrus notes",
-        price: "$13 / glass",
-        image: menuWine,
-      },
-      {
-        name: "Craft Beer Selection",
-        description: "Rotating local and imported craft beers",
-        price: "$9",
-        image: menuWine,
-      },
-      {
-        name: "Classic Martini",
-        description: "Gin or vodka, dry vermouth, olive or twist",
-        price: "$16",
-        image: menuWine,
-      },
-      {
-        name: "Old Fashioned",
-        description: "Bourbon, bitters, sugar, orange peel",
-        price: "$17",
-        image: menuWine,
-      },
-      {
-        name: "Mocktail Selection",
-        description: "Virgin mojito, sunrise spritz, berry fizz",
-        price: "$10",
-        image: menuWine,
-      },
-      {
-        name: "Premium Tea Service",
-        description: "Earl Grey, Green Jasmine, Chamomile, Peppermint",
-        price: "$5",
-        image: menuWine,
-      },
-    ],
+    starters: menuData.starters.map(item => ({
+      ...item,
+      image: imageMap[item.image]
+    })),
+    mains: menuData.mains.map(item => ({
+      ...item,
+      image: imageMap[item.image]
+    })),
+    desserts: menuData.desserts.map(item => ({
+      ...item,
+      image: imageMap[item.image]
+    })),
+    drinks: menuData.drinks.map(item => ({
+      ...item,
+      image: imageMap[item.image]
+    })),
   };
 
-  const handleImageClick = (items: typeof menuItems.starters, index: number) => {
-    const images = items.map((item) => ({ src: item.image, alt: item.name }));
-    setLightboxImages(images);
-    setLightboxIndex(index);
-    setLightboxOpen(true);
-  };
+  const allItems = [
+    ...menuItems.starters,
+    ...menuItems.mains,
+    ...menuItems.desserts,
+    ...menuItems.drinks,
+  ];
 
-  const MenuSection = ({ items }: { items: typeof menuItems.starters }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {items.map((item, index) => (
-        <Card
-          key={index}
-          className="overflow-hidden hover-scale cursor-pointer group animate-fade-in"
-          style={{ animationDelay: `${index * 0.1}s` }}
-        >
-          <div className="flex flex-col sm:flex-row">
-            <div 
-              className="relative w-full sm:w-40 h-40 overflow-hidden cursor-pointer"
-              onClick={() => handleImageClick(items, index)}
-            >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 transition-colors duration-300 flex items-center justify-center">
-                <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-semibold">
-                  View Image
-                </span>
-              </div>
-            </div>
-            <CardContent className="flex-1 p-6">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="text-xl font-semibold font-playfair">
-                  {item.name}
-                </h3>
-                <span className="text-primary font-semibold ml-4">
-                  {item.price}
-                </span>
-              </div>
-              <p className="text-sm text-muted-foreground">{item.description}</p>
-            </CardContent>
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
+  const displayedItems =
+    selectedCategory === "all"
+      ? allItems
+      : menuItems[selectedCategory as keyof typeof menuItems] || [];
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
       <Navigation />
+      <BackToTop />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-12 text-center">
-        <div className="container mx-auto px-4 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 font-playfair">
-            Our <span className="text-gradient-gold">Menu</span>
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover our carefully curated selection of exquisite dishes, crafted with passion and precision
-          </p>
+      <section className="pt-32 pb-12 text-center bg-gradient-to-b from-background to-card/30">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 font-playfair">
+              Our <span className="text-gradient-gold">Menu</span>
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Discover our carefully curated selection of exquisite dishes, crafted with passion and precision
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Menu Content */}
-      <section className="py-12 pb-20">
+      {/* Category Filters */}
+      <section className="py-8 bg-card/50 sticky top-20 z-40 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4">
-          <Tabs defaultValue="mains" className="w-full">
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-12 h-auto">
-              <TabsTrigger value="starters" className="text-sm md:text-base py-3">
-                Starters
-              </TabsTrigger>
-              <TabsTrigger value="mains" className="text-sm md:text-base py-3">
-                Main Course
-              </TabsTrigger>
-              <TabsTrigger value="desserts" className="text-sm md:text-base py-3">
-                Desserts
-              </TabsTrigger>
-              <TabsTrigger value="drinks" className="text-sm md:text-base py-3">
-                Drinks
-              </TabsTrigger>
-            </TabsList>
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map((category) => (
+              <Button
+                key={category.id}
+                variant={selectedCategory === category.id ? "default" : "outline"}
+                onClick={() => setSelectedCategory(category.id)}
+                className="min-w-[120px]"
+              >
+                {category.name}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <TabsContent value="starters">
-              <MenuSection items={menuItems.starters} />
-            </TabsContent>
-
-            <TabsContent value="mains">
-              <MenuSection items={menuItems.mains} />
-            </TabsContent>
-
-            <TabsContent value="desserts">
-              <MenuSection items={menuItems.desserts} />
-            </TabsContent>
-
-            <TabsContent value="drinks">
-              <MenuSection items={menuItems.drinks} />
-            </TabsContent>
-          </Tabs>
+      {/* Menu Items */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <motion.div
+            key={selectedCategory}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-3xl font-bold text-center mb-8 font-playfair">
+              {selectedCategory === "all"
+                ? "All Menu Items"
+                : categories.find((c) => c.id === selectedCategory)?.name}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {displayedItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                >
+                  <Card
+                    className="overflow-hidden hover-scale cursor-pointer"
+                    onClick={() => setLightboxIndex(index)}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <CardContent className="p-6">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-xl font-semibold font-playfair">
+                          {item.name}
+                        </h3>
+                        <span className="text-primary font-bold">
+                          {item.price}
+                        </span>
+                      </div>
+                      <p className="text-muted-foreground">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -393,14 +172,14 @@ const Menu = () => {
       </section>
 
       <MenuLightbox
-        isOpen={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
-        images={lightboxImages}
-        currentIndex={lightboxIndex}
+        isOpen={lightboxIndex >= 0}
+        onClose={() => setLightboxIndex(-1)}
+        images={displayedItems.map((item) => ({ src: item.image, alt: item.name }))}
+        currentIndex={lightboxIndex >= 0 ? lightboxIndex : 0}
       />
 
       <Footer />
-    </div>
+    </>
   );
 };
 

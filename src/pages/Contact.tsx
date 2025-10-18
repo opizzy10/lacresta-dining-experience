@@ -41,10 +41,22 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // EmailJS integration
+      // Store in localStorage for testing
+      const reservations = JSON.parse(
+        localStorage.getItem("reservations") || "[]"
+      );
+      reservations.push({
+        ...formData,
+        id: Date.now(),
+        timestamp: new Date().toISOString(),
+      });
+      localStorage.setItem("reservations", JSON.stringify(reservations));
+
+      // EmailJS integration (uncomment and add your credentials when ready)
+      /*
       await emailjs.send(
-        'service_lacresta', // You'll need to replace with actual EmailJS service ID
-        'template_reservation', // You'll need to replace with actual EmailJS template ID
+        'service_lacresta', // Replace with actual EmailJS service ID
+        'template_reservation', // Replace with actual EmailJS template ID
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -54,25 +66,29 @@ const Contact = () => {
           time: formData.time,
           message: formData.message || "No special requests",
         },
-        'your_public_key' // You'll need to replace with actual EmailJS public key
+        'your_public_key' // Replace with actual EmailJS public key
       );
+      */
 
-      setShowSuccessModal(true);
-      
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        guests: "",
-        date: "",
-        time: "",
-        message: "",
-      });
+      setTimeout(() => {
+        setShowSuccessModal(true);
+        toast.success("Reservation submitted successfully!");
+        
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          guests: "",
+          date: "",
+          time: "",
+          message: "",
+        });
+        setIsSubmitting(false);
+      }, 1000);
     } catch (error) {
-      console.error("EmailJS Error:", error);
-      toast.error("Failed to send reservation. Please call us directly.");
-    } finally {
+      console.error("Submission Error:", error);
+      toast.error("Failed to send reservation. Please try again.");
       setIsSubmitting(false);
     }
   };

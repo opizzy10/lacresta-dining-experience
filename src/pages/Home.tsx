@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import Hero from "@/components/Hero";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
+import BackToTop from "@/components/BackToTop";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { ChefHat, Clock, Award, Sparkles } from "lucide-react";
 import dishSalmon from "@/assets/dish-salmon.jpg";
 import dishSteak from "@/assets/dish-steak.jpg";
@@ -84,16 +86,20 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <Hero />
+      <BackToTop />
 
       {/* Features Section */}
       <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="text-center space-y-4 animate-fade-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="text-center space-y-4"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
                   <feature.icon className="w-8 h-8 text-primary" />
@@ -102,7 +108,7 @@ const Home = () => {
                   {feature.title}
                 </h3>
                 <p className="text-muted-foreground">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -111,42 +117,52 @@ const Home = () => {
       {/* Featured Dishes */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
             <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
               Featured <span className="text-gradient-gold">Dishes</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Discover our chef's signature creations, crafted with passion and precision
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {featuredDishes.map((dish, index) => (
-              <Card
+              <motion.div
                 key={index}
-                className="overflow-hidden hover-scale cursor-pointer group animate-fade-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={dish.image}
-                    alt={dish.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-2xl font-bold text-foreground font-playfair mb-1">
-                      {dish.name}
-                    </h3>
-                    <p className="text-primary font-semibold text-lg">
-                      {dish.price}
-                    </p>
+                <Card className="overflow-hidden hover-scale cursor-pointer group">
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={dish.image}
+                      alt={dish.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h3 className="text-2xl font-bold text-foreground font-playfair mb-1">
+                        {dish.name}
+                      </h3>
+                      <p className="text-primary font-semibold text-lg">
+                        {dish.price}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-6">
-                  <p className="text-muted-foreground">{dish.description}</p>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-6">
+                    <p className="text-muted-foreground">{dish.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
 
@@ -163,7 +179,13 @@ const Home = () => {
       {/* Chef's Special */}
       <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
             <div className="inline-flex items-center gap-2 mb-4">
               <Sparkles className="w-8 h-8 text-primary" />
               <h2 className="text-4xl md:text-5xl font-bold font-playfair">
@@ -174,9 +196,15 @@ const Home = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               A limited-time masterpiece crafted by our Executive Chef
             </p>
-          </div>
+          </motion.div>
 
-          <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-4xl mx-auto"
+          >
             <Card className="overflow-hidden hover-scale cursor-pointer group">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="relative h-80 md:h-auto overflow-hidden">
@@ -208,21 +236,27 @@ const Home = () => {
                 </CardContent>
               </div>
             </Card>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Testimonials */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
             <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
               What Our <span className="text-gradient-gold">Guests Say</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Hear from our satisfied diners about their exceptional experiences
             </p>
-          </div>
+          </motion.div>
 
           <TestimonialCarousel testimonials={testimonials} />
         </div>
@@ -231,17 +265,36 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-hero">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-playfair animate-fade-in">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold mb-6 font-playfair"
+          >
             Ready for an <span className="text-gradient-gold">Exceptional</span> Experience?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto"
+          >
             Reserve your table today and let us create an unforgettable dining experience for you
-          </p>
-          <Link to="/contact">
-            <Button variant="hero" size="lg" className="animate-fade-in">
-              Make a Reservation
-            </Button>
-          </Link>
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Link to="/contact">
+              <Button variant="hero" size="lg">
+                Make a Reservation
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
