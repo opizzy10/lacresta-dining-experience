@@ -3,6 +3,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
+import Newsletter from "@/components/Newsletter";
+import FloatingReserveButton from "@/components/FloatingReserveButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -111,6 +113,7 @@ const Home = () => {
       <Navigation />
       <Hero />
       <BackToTop />
+      <FloatingReserveButton />
 
       {/* Features Section */}
       <section className="py-20 bg-card">
@@ -286,8 +289,11 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Newsletter */}
+      <Newsletter />
+
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-hero">
+      <section className="py-20 bg-card">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

@@ -11,6 +11,12 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
   if (!mounted) {
     return <Button variant="ghost" size="icon" className="w-9 h-9" />;
   }
@@ -19,13 +25,13 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="w-9 h-9 hover-scale"
+      onClick={toggleTheme}
+      className="w-9 h-9 transition-all duration-300 hover:bg-primary/10 hover:scale-110"
     >
       {theme === "dark" ? (
-        <Sun className="h-5 w-5" />
+        <Sun className="h-5 w-5 text-primary transition-transform duration-300" />
       ) : (
-        <Moon className="h-5 w-5" />
+        <Moon className="h-5 w-5 text-primary transition-transform duration-300" />
       )}
       <span className="sr-only">Toggle theme</span>
     </Button>

@@ -77,15 +77,15 @@ const Shop = () => {
                 )}
 
                 {/* Image Container with Hover Effect */}
-                <div className="relative h-64 overflow-hidden bg-muted transition-all duration-500 group-hover:bg-primary/20">
+                <div className="relative h-64 overflow-hidden bg-muted transition-all duration-500 group-hover:bg-gradient-to-b group-hover:from-primary/30 group-hover:to-primary/10">
                   <img
                     src={getImagePath(product.image)}
                     alt={product.name}
-                    className="w-full h-full object-cover rounded-full p-4 transition-all duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover rounded-full p-4 transition-all duration-500 group-hover:scale-110 group-hover:brightness-75"
                   />
                   
                   {/* Add to Cart Button - Appears on Hover */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500">
                     <Button
                       onClick={() => addToCart({
                         id: product.id,
@@ -95,7 +95,8 @@ const Shop = () => {
                         image: product.image,
                         category: product.category,
                       })}
-                      className="bg-foreground text-background hover:bg-foreground/90 font-semibold px-8 py-6 text-base rounded-full shadow-elegant"
+                      variant="hero"
+                      className="font-semibold px-8 py-6 text-base rounded-full shadow-gold hover:shadow-elegant scale-95 group-hover:scale-100 transition-all duration-300"
                     >
                       <ShoppingCart className="mr-2 h-5 w-5" />
                       Add To Cart
