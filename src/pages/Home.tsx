@@ -39,6 +39,30 @@ const Home = () => {
       price: "$58",
       image: dishLobster,
     },
+    {
+      name: "Mediterranean Sea Bass",
+      description: "Whole roasted sea bass with olive tapenade and lemon",
+      price: "$46",
+      image: dishSalmon,
+    },
+    {
+      name: "Filet Mignon",
+      description: "8oz grass-fed beef with red wine reduction and roasted vegetables",
+      price: "$62",
+      image: dishSteak,
+    },
+    {
+      name: "Truffle Risotto",
+      description: "Creamy arborio rice with black truffle and parmesan",
+      price: "$38",
+      image: dishPasta,
+    },
+    {
+      name: "Lobster Thermidor",
+      description: "Classic French preparation with cognac sauce and gruyère",
+      price: "$72",
+      image: dishLobster,
+    },
   ];
 
   const testimonials = [
